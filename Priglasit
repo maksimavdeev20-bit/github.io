@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Для тебя 💗</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Manrope, Arial, sans-serif;
+    background: #fbeef5;
+    color: #25212a;
+}
+
+button {
+    font: inherit;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================
+   ЭКРАНЫ
+========================= */
+
+.screen {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(18px) scale(.985);
+
+    transition:
+        opacity .55s ease,
+        transform .65s cubic-bezier(.22,.8,.25,1),
+        visibility 0s linear .65s;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    transition-delay: 0s;
+}
+
+
+/* =========================
+   ПЕРВЫЙ ЭКРАН — КОНВЕРТ
+========================= */
+
+#screenEnvelope {
+    background:
+        radial-gradient(
+            circle at 50% 18%,
+            rgba(255,255,255,.9),
+            transparent 32%
+        ),
+        linear-gradient(
+            160deg,
+            #fff5fa 0%,
+            #f9e7f0 100%
+        );
+}
+
+.phone-frame {
+    width: min(94vw, 390px);
+    height: min(96vh, 760px);
+
+    border: 7px solid #f5c7da;
+    border-radius: 34px;
+
+    background: #fff8fb;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.top-speaker {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 92px;
+    height: 22px;
+
+    border-radius: 20px;
+
+    background: #f5c8da;
+}
+
+.top-speaker::after {
+    content: "";
+
+    position: absolute;
+    right: 12px;
+    top: 7px;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #b992a4;
+}
+
+
+/* =========================
+   КОНВЕРТ
+========================= */
+
+.envelope-wrap {
+    width: min(82vw, 315px);
+    margin-top: 10px;
+    perspective: 1200px;
+}
+
+.envelope {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 1.55;
+
+    transform-style: preserve-3d;
+
+    filter:
+        drop-shadow(
+            0 18px 28px rgba(160,90,120,.17)
+        );
+
+    transition:
+        transform .35s ease;
+}
+
+.envelope:hover {
+    transform: translateY(-3px);
+}
+
+
+/* Письмо */
+
+.envelope .paper {
+    position: absolute;
+
+    left: 9%;
+    right: 9%;
+
+    top: 8%;
+
+    height: 84%;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fffafc
+        );
+
+    border-radius: 4px;
+
+    box-shadow:
+        0 5px 16px rgba(80,45,65,.10);
+
+    z-index: 2;
+
+    transform: translateY(2%);
+
+    transition:
+        transform 1.05s cubic-bezier(.2,.78,.18,1);
+}
+
+.envelope.open .paper {
+    transform: translateY(-58%);
+}
+
+
+/* Задняя часть */
+
+.env-back {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f4a9c5,
+            #e985aa
+        );
+
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+.env-back::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            160deg,
+            rgba(255,255,255,.22),
+            transparent 42%,
+            rgba(173,57,101,.10)
+        );
+}
+
+
+/* Боковые клапаны */
+
+.env-front {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+}
+
+.env-front::before,
+.env-front::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 0;
+
+    width: 72%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7b5ce,
+            #eb91b0
+        );
+}
+
+.env-front::before {
+    left: -34%;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+.env-front::after {
+    right: -34%;
+
+    clip-path:
+        polygon(
+            100% 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+
+/* Нижний клапан */
+
+.env-bottom {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 72%;
+
+    z-index: 6;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f3a5c1,
+            #e884a8
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            50% 68%,
+            100% 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+
+/* Верхний клапан */
+
+.flap {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    height: 62%;
+
+    z-index: 8;
+
+    transform-origin: 50% 0%;
+
+    transform: rotateX(0deg);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 1.05s cubic-bezier(.22,.72,.18,1);
+}
+
+.flap-face {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f7b5ce,
+            #ed93b2
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    backface-visibility: hidden;
+}
+
+.flap-back {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ef9ab8,
+            #e584a7
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    transform: rotateX(180deg);
+
+    backface-visibility: hidden;
+}
+
+.envelope.open .flap {
+    transform: rotateX(-180deg);
+}
+
+
+/* Печать */
+
+.seal {
+    position: absolute;
+
+    left: 50%;
+    top: 47%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    z-index: 12;
+
+    display: grid;
+    place-items: center;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ff9bbd,
+            #ed4f80
+        );
+
+    color: white;
+
+    font-size: 23px;
+
+    box-shadow:
+        0 7px 16px rgba(202,57,106,.25);
+
+    transition:
+        opacity .25s ease,
+        transform .35s ease;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.75);
+}
+
+
+/* Текст */
+
+.envelope-hint {
+    margin-top: 30px;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 27px;
+
+    font-weight: 700;
+
+    color: #3b2932;
+}
+
+.tap-hint {
+    margin-top: 8px;
+
+    font-size: 12px;
+
+    color: #a47b8c;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================
+   ЭКРАН С КОТИКАМИ
+========================= */
+
+#screenDate {
+    background:
+        linear-gradient(
+            180deg,
+            #fff8fb,
+            #f8eaf2
+        );
+
+    padding: 24px;
+}
+
+.date-card {
+    width: min(90vw, 390px);
+
+    text-align: center;
+}
+
+
+/* Котики */
+
+.cats {
+    width: 270px;
+    height: 220px;
+
+    margin:
+        0 auto 5px;
+}
+
+
+/* НОВЫЙ ТЕКСТ */
+
+.question {
+    font-size: 20px;
+
+    line-height: 1.5;
+
+    font-weight: 700;
+
+    margin:
+        0 auto 20px;
+
+    max-width: 330px;
+}
+
+
+/* =========================
+   КНОПКИ
+========================= */
+
+.answers {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.answer {
+    width: 100%;
+
+    height: 49px;
+
+    border-radius: 28px;
+
+    font-size: 16px;
+
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        opacity .35s ease,
+        width .35s ease;
+}
+
+.yes {
+    background:
+        linear-gradient(
+            180deg,
+            #f75f91,
+            #e94579
+        );
+
+    color: white;
+
+    box-shadow:
+        0 9px 20px
+        rgba(232,69,119,.22);
+}
+
+.no {
+    background: #d5d1df;
+
+    color: #696273;
+
+    transform-origin: center;
+}
+
+.answer:active {
+    transform: scale(.97);
+}
+
+
+/* =========================
+   УМЕНЬШЕНИЕ "НЕТ"
+========================= */
+
+.no.shrink1 {
+    transform: scale(.82);
+}
+
+.no.shrink2 {
+    transform: scale(.64);
+}
+
+.no.shrink3 {
+    transform: scale(.46);
+}
+
+.no.shrink4 {
+    transform: scale(.28);
+    opacity: .45;
+}
+
+
+/* =========================
+   ЭКРАН "Я ТАК И ЗНАЛ"
+========================= */
+
+#screenThanks {
+    background:
+        linear-gradient(
+            180deg,
+            #fff8fb,
+            #faeaf2
+        );
+
+    padding: 28px;
+}
+
+.thanks-card {
+    text-align: center;
+
+    width: min(90vw, 390px);
+}
+
+.thanks-title {
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 39px;
+
+    line-height: 1.05;
+
+    margin:
+        0 0 12px;
+
+    color: #d83f72;
+}
+
+.thanks-text {
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    color: #5c4c57;
+
+    margin:
+        0 0 24px;
+}
+
+
+/* =========================
+   РОЗОВАЯ КНОПКА
+========================= */
+
+.primary {
+    width: 100%;
+
+    height: 52px;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f75f91,
+            #e94579
+        );
+
+    color: white;
+
+    box-shadow:
+        0 10px 24px
+        rgba(232,69,119,.22);
+}
+
+
+/* =========================
+   НАПИТКИ
+========================= */
+
+#screenDrink {
+    background:
+        linear-gradient(
+            180deg,
+            #fff8fb,
+            #f9eaf2
+        );
+
+    padding: 24px;
+}
+
+.drink-card {
+    width: min(92vw, 390px);
+
+    text-align: center;
+}
+
+.drink-title {
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 38px;
+
+    line-height: 1.05;
+
+    margin:
+        0 0 8px;
+}
+
+.drink-sub {
+    color: #806d78;
+
+    font-size: 14px;
+
+    margin:
+        0 0 20px;
+}
+
+.drinks {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+.drink {
+    min-height: 92px;
+
+    border-radius: 22px;
+
+    background: white;
+
+    box-shadow:
+        0 8px 22px
+        rgba(95,55,77,.09);
+
+    font-size: 16px;
+
+    color: #3d3440;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.drink span {
+    display: block;
+
+    font-size: 31px;
+
+    margin-bottom: 5px;
+}
+
+.drink.selected {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(226,74,123,.2);
+
+    outline:
+        2px solid #ef6590;
+}
+
+.continue {
+    margin-top: 16px;
+
+    opacity: .55;
+}
+
+
+/* =========================
+   ФИНАЛ
+========================= */
+
+#screenFinal {
+    background:
+        linear-gradient(
+            180deg,
+            #fff8fb,
+            #f8e8f1
+        );
+
+    padding: 24px;
+
+    overflow: hidden;
+}
+
+.final-card {
+    width: min(91vw, 390px);
+
+    text-align: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.final-title {
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 38px;
+
+    line-height: 1.05;
+
+    color: #d83f72;
+
+    margin:
+        0 0 10px;
+}
+
+.final-text {
+    font-size: 16px;
+
+    line-height: 1.55;
+
+    color: #5b4a55;
+
+    margin:
+        0 0 15px;
+}
+
+.chosen {
+    display: inline-block;
+
+    padding:
+        10px 17px;
+
+    border-radius: 20px;
+
+    background: white;
+
+    box-shadow:
+        0 6px 18px
+        rgba(90,45,70,.08);
+
+    margin-bottom: 15px;
+
+    font-weight: 600;
+}
+
+.movie {
+    margin:
+        10px auto 18px;
+
+    padding:
+        12px 15px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    color: #76616d;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   СЕРДЕЧКИ
+========================= */
+
+.hearts {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+
+    top: -30px;
+
+    font-size: 18px;
+
+    animation:
+        fall linear forwards;
+
+    opacity: .75;
+}
+
+@keyframes fall {
+
+    from {
+        transform:
+            translateY(-20px)
+            rotate(0deg);
+
+        opacity: 0;
+    }
+
+    12% {
+        opacity: .8;
+    }
+
+    to {
+        transform:
+            translateY(110vh)
+            rotate(280deg);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   ВЗРЫВ СЕРДЕЧЕК
+========================= */
+
+.burst-heart {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    font-size: 22px;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    animation:
+        burst .95s ease-out forwards;
+}
+
+@keyframes burst {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            scale(.3);
+
+        opacity: 1;
+    }
+
+    to {
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(1.25)
+            rotate(var(--r));
+
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- ==================================================
+     ЭКРАН 1 — КОНВЕРТ
+================================================== -->
+
+<section
+    class="screen active"
+    id="screenEnvelope"
+>
+
+    <div class="phone-frame">
+
+        <div class="top-speaker"></div>
+
+
+        <div class="envelope-wrap">
+
+            <div
+                class="envelope"
+                id="envelope"
+                role="button"
+                aria-label="Открыть конверт"
+                tabindex="0"
+            >
+
+                <div class="paper"></div>
+
+                <div class="env-back"></div>
+
+                <div class="env-front"></div>
+
+                <div class="env-bottom"></div>
+
+                <div class="flap">
+
+                    <div class="flap-face"></div>
+
+                    <div class="flap-back"></div>
+
+                </div>
+
+                <div class="seal">
+                    ♥
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="envelope-hint">
+            че смотрим, открывай давай
+        </div>
+
+        <div class="tap-hint">
+            нажми на конверт
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ЭКРАН 2 — КОТИКИ
+================================================== -->
+
+<section
+    class="screen"
+    id="screenDate"
+>
+
+    <div class="date-card">
+
+
+        <div
+            class="cats"
+            aria-hidden="true"
+        >
+
+            <svg
+                viewBox="0 0 300 230"
+                width="100%"
+                height="100%"
+            >
+
+
+                <!-- СЕРЫЙ КОТИК -->
+
+                <g>
+
+                    <path
+                        d="
+                            M58 118
+                            Q48 80 72 51
+                            L100 67
+                            Q124 51 151 66
+                            L166 53
+                            Q176 84 163 119
+                            Q154 151 119 159
+                            Q82 161 67 143
+                            Z
+                        "
+                        fill="#a99f9c"
+                    />
+
+                    <path
+                        d="
+                            M72 51
+                            L100 67
+                            L75 76
+                            Z
+                        "
+                        fill="#c98e91"
+                    />
+
+                    <path
+                        d="
+                            M166 53
+                            L151 66
+                            L163 78
+                            Z
+                        "
+                        fill="#c98e91"
+                    />
+
+                    <circle
+                        cx="96"
+                        cy="104"
+                        r="3.5"
+                        fill="#3d3335"
+                    />
+
+                    <circle
+                        cx="137"
+                        cy="104"
+                        r="3.5"
+                        fill="#3d3335"
+                    />
+
+                    <path
+                        d="
+                            M114 114
+                            Q118 118 122 114
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    />
+
+                    <circle
+                        cx="88"
+                        cy="119"
+                        r="6"
+                        fill="#eaa3a9"
+                        opacity=".55"
+                    />
+
+                    <circle
+                        cx="145"
+                        cy="119"
+                        r="6"
+                        fill="#eaa3a9"
+                        opacity=".55"
+                    />
+
+                    <path
+                        d="
+                            M119 124
+                            Q108 137 91 140
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="
+                            M85 153
+                            Q69 165 76 181
+                        "
+                        fill="none"
+                        stroke="#756c6b"
+                        stroke-width="8"
+                        stroke-linecap="round"
+                    />
+
+                </g>
+
+
+
+                <!-- БЕЛЫЙ КОТИК -->
+
+                <g>
+
+                    <path
+                        d="
+                            M141 120
+                            Q137 82 159 56
+                            L186 70
+                            Q211 57 239 70
+                            L254 56
+                            Q261 91 249 124
+                            Q239 154 207 160
+                            Q173 161 153 143
+                            Z
+                        "
+                        fill="#fffdf9"
+                        stroke="#3d3335"
+                        stroke-width="2.2"
+                    />
+
+                    <path
+                        d="
+                            M159 56
+                            L186 70
+                            L164 77
+                            Z
+                        "
+                        fill="#f0d5d5"
+                        stroke="#3d3335"
+                        stroke-width="2"
+                    />
+
+                    <path
+                        d="
+                            M254 56
+                            L239 70
+                            L251 78
+                            Z
+                        "
+                        fill="#f0d5d5"
+                        stroke="#3d3335"
+                        stroke-width="2"
+                    />
+
+                    <path
+                        d="
+                            M166 110
+                            Q173 104 180 110
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="
+                            M218 110
+                            Q225 104 232 110
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    />
+
+                    <path
+                        d="
+                            M194 120
+                            Q198 124 202 120
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    />
+
+                    <circle
+                        cx="169"
+                        cy="120"
+                        r="6"
+                        fill="#efb1b5"
+                        opacity=".48"
+                    />
+
+                    <circle
+                        cx="229"
+                        cy="120"
+                        r="6"
+                        fill="#efb1b5"
+                        opacity=".48"
+                    />
+
+                    <path
+                        d="
+                            M200 130
+                            Q211 140 224 141
+                        "
+                        fill="none"
+                        stroke="#3d3335"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                    />
+
+                </g>
+
+
+
+                <!-- СЕРДЕЧКО -->
+
+                <path
+                    d="
+                        M150 35
+                        C143 25 128 31 133 42
+                        L150 57
+                        L167 42
+                        C172 31 157 25 150 35
+                        Z
+                    "
+                    fill="#ef5b78"
+                />
+
+            </svg>
+
+        </div>
+
+
+        <!-- ИСПРАВЛЕННЫЙ ТЕКСТ -->
+
+        <p class="question">
+            Давай уже сходим<br>
+            на нормальное свидание
+        </p>
+
+
+        <div class="answers">
+
+            <button
+                class="answer yes"
+                id="yesBtn"
+            >
+                Да
+            </button>
+
+
+            <button
+                class="answer no"
+                id="noBtn"
+            >
+                Нет
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ЭКРАН 3
+================================================== -->
+
+<section
+    class="screen"
+    id="screenThanks"
+>
+
+    <div class="thanks-card">
+
+        <h1 class="thanks-title">
+            Я так и знал,<br>
+            мне очень приятно
+        </h1>
+
+
+        <p class="thanks-text">
+            Тогда официально считаю,
+            что наше свидание уже начинается 💗
+        </p>
+
+
+        <button
+            class="primary"
+            id="yesYesBtn"
+        >
+            Да-да
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ЭКРАН 4 — НАПИТОК
+================================================== -->
+
+<section
+    class="screen"
+    id="screenDrink"
+>
+
+    <div class="drink-card">
+
+        <h1 class="drink-title">
+            Что будем пить? ☕
+        </h1>
+
+        <p class="drink-sub">
+            Выбирай, а остальное я беру на себя
+        </p>
+
+
+        <div class="drinks">
+
+            <button
+                class="drink"
+                data-drink="☕ Капучино"
+            >
+                <span>☕</span>
+                Капучино
+            </button>
+
+
+            <button
+                class="drink"
+                data-drink="🧃 Сок"
+            >
+                <span>🧃</span>
+                Сок
+            </button>
+
+
+            <button
+                class="drink"
+                data-drink="🍵 Чай"
+            >
+                <span>🍵</span>
+                Чай
+            </button>
+
+
+            <button
+                class="drink"
+                data-drink="🍹 Коктейль"
+            >
+                <span>🍹</span>
+                Коктейль
+            </button>
+
+
+            <button
+                class="drink"
+                data-drink="🍷 Вино"
+            >
+                <span>🍷</span>
+                Вино
+            </button>
+
+
+            <button
+                class="drink"
+                data-drink="🥃 Виски"
+            >
+                <span>🥃</span>
+                Виски
+            </button>
+
+        </div>
+
+
+        <button
+            class="primary continue"
+            id="drinkBtn"
+            disabled
+        >
+            Выбираю 💗
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     ФИНАЛ
+================================================== -->
+
+<section
+    class="screen"
+    id="screenFinal"
+>
+
+    <div
+        class="hearts"
+        id="heartRain"
+    ></div>
+
+
+    <div class="final-card">
+
+        <h1 class="final-title">
+            Спасибо, что<br>
+            сказала «Да» 💗
+        </h1>
+
+
+        <p class="final-text">
+            Обещаю, это будет особенное свидание
+        </p>
+
+
+        <div
+            class="chosen"
+            id="chosenDrink"
+        >
+            ☕ Капучино
+        </div>
+
+
+        <p class="final-text">
+            Осталось только выбрать день,
+            а обо всём остальном я позабочусь. 💗
+        </p>
+
+
+        <div class="movie">
+            🎬 Зверополис 2 · 01:23:08
+        </div>
+
+
+        <button class="primary">
+            Жду наше свидание 💖
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+/* =========================
+   ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
+========================= */
+
+const screens = {
+
+    envelope:
+        document.getElementById("screenEnvelope"),
+
+    date:
+        document.getElementById("screenDate"),
+
+    thanks:
+        document.getElementById("screenThanks"),
+
+    drink:
+        document.getElementById("screenDrink"),
+
+    final:
+        document.getElementById("screenFinal")
+
+};
+
+
+function showScreen(from, to) {
+
+    from.classList.remove("active");
+
+    setTimeout(() => {
+
+        to.classList.add("active");
+
+    }, 120);
+
+}
+
+
+/* =========================
+   КОНВЕРТ
+========================= */
+
+const envelope =
+    document.getElementById("envelope");
+
+
+function openEnvelope() {
+
+    if (
+        envelope.classList.contains("open")
+    ) {
+        return;
+    }
+
+
+    envelope.classList.add("open");
+
+
+    setTimeout(() => {
+
+        showScreen(
+            screens.envelope,
+            screens.date
+        );
+
+    }, 1450);
+
+}
+
+
+envelope.addEventListener(
+    "click",
+    openEnvelope
+);
+
+
+envelope.addEventListener(
+    "keydown",
+    (e) => {
+
+        if (
+            e.key === "Enter" ||
+            e.key === " "
+        ) {
+
+            e.preventDefault();
+
+            openEnvelope();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ДА — СЕРДЕЧКИ
+========================= */
+
+document
+    .getElementById("yesBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            for (
+                let i = 0;
+                i < 20;
+                i++
+            ) {
+
+                const h =
+                    document.createElement("div");
+
+
+                h.className =
+                    "burst-heart";
+
+
+                h.textContent =
+                    [
+                        "♥",
+                        "💗",
+                        "💕",
+                        "❤"
+                    ][i % 4];
+
+
+                h.style.setProperty(
+                    "--x",
+                    `${
+                        Math.cos(
+                            i / 20 * Math.PI * 2
+                        ) *
+                        (
+                            90 +
+                            Math.random() * 130
+                        )
+                    }px`
+                );
+
+
+                h.style.setProperty(
+                    "--y",
+                    `${
+                        Math.sin(
+                            i / 20 * Math.PI * 2
+                        ) *
+                        (
+                            90 +
+                            Math.random() * 130
+                        )
+                    }px`
+                );
+
+
+                h.style.setProperty(
+                    "--r",
+                    `${
+                        Math.random() * 70 - 35
+                    }deg`
+                );
+
+
+                document.body.appendChild(h);
+
+
+                setTimeout(
+                    () => h.remove(),
+                    1000
+                );
+
+            }
+
+
+            setTimeout(
+                () => {
+
+                    showScreen(
+                        screens.date,
+                        screens.thanks
+                    );
+
+                },
+                650
+            );
+
+        }
+    );
+
+
+/* =========================
+   НЕТ — УМЕНЬШАЕТСЯ
+========================= */
+
+const noBtn =
+    document.getElementById("noBtn");
+
+let noClicks = 0;
+
+
+noBtn.addEventListener(
+    "click",
+    () => {
+
+        noClicks++;
+
+
+        noBtn.classList.remove(
+            "shrink1",
+            "shrink2",
+            "shrink3",
+            "shrink4"
+        );
+
+
+        if (noClicks === 1) {
+
+            noBtn.classList.add(
+                "shrink1"
+            );
+
+        }
+
+        else if (noClicks === 2) {
+
+            noBtn.classList.add(
+                "shrink2"
+            );
+
+        }
+
+        else if (noClicks === 3) {
+
+            noBtn.classList.add(
+                "shrink3"
+            );
+
+        }
+
+        else {
+
+            noBtn.classList.add(
+                "shrink4"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ДА-ДА
+========================= */
+
+document
+    .getElementById("yesYesBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            showScreen(
+                screens.thanks,
+                screens.drink
+            );
+
+        }
+    );
+
+
+/* =========================
+   НАПИТКИ
+========================= */
+
+let selectedDrink = "";
+
+
+document
+    .querySelectorAll(".drink")
+    .forEach(
+        (btn) => {
+
+            btn.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(".drink")
+                        .forEach(
+                            b =>
+                                b.classList.remove(
+                                    "selected"
+                                )
+                        );
+
+
+                    btn.classList.add(
+                        "selected"
+                    );
+
+
+                    selectedDrink =
+                        btn.dataset.drink;
+
+
+                    const drinkButton =
+                        document.getElementById(
+                            "drinkBtn"
+                        );
+
+
+                    drinkButton.disabled =
+                        false;
+
+                    drinkButton.style.opacity =
+                        "1";
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================
+   ФИНАЛ
+========================= */
+
+document
+    .getElementById("drinkBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (!selectedDrink) {
+                return;
+            }
+
+
+            document
+                .getElementById(
+                    "chosenDrink"
+                )
+                .textContent =
+                selectedDrink;
+
+
+            showScreen(
+                screens.drink,
+                screens.final
+            );
+
+
+            startHeartRain();
+
+        }
+    );
+
+
+/* =========================
+   ПАДАЮЩИЕ СЕРДЕЧКИ
+========================= */
+
+function startHeartRain() {
+
+    const box =
+        document.getElementById(
+            "heartRain"
+        );
+
+
+    box.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < 18;
+        i++
+    ) {
+
+        const h =
+            document.createElement("span");
+
+
+        h.className =
+            "heart";
+
+
+        h.textContent =
+            [
+                "♥",
+                "♡",
+                "💗"
+            ][i % 3];
+
+
+        h.style.left =
+            (
+                Math.random() * 100
+            ) + "%";
+
+
+        h.style.animationDuration =
+            (
+                5 +
+                Math.random() * 5
+            ) + "s";
+
+
+        h.style.animationDelay =
+            (
+                Math.random() * 3
+            ) + "s";
+
+
+        h.style.fontSize =
+            (
+                13 +
+                Math.random() * 12
+            ) + "px";
+
+
+        box.appendChild(h);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
